@@ -1,4 +1,8 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Breaking project - Spotify
+
+During my master degree I does not have enough time to keep working as a frontend-developer. And as it should be expected, I started to lose my skill. So I decided to work with a Spotify full function clone on Next.js 12.
+
+[Initialize app](https://tailwindcss.com/docs/guides/nextjs)
 
 ## Getting Started
 
