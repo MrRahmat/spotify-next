@@ -1,9 +1,13 @@
 import { HeartIcon, HomeIcon, LibraryIcon, PlusCircleIcon, RssIcon, SearchIcon } from '@heroicons/react/outline';
+import { signOut } from 'next-auth/react';
 
 function Sidebar() {
   return (
     <div className='text-gray-500 p-5 text-sm border-r border-gray-900'>
         <div className='space-y-4'>
+            <button className='flex items-center space-x-2 hover:text-white cursor-pointer' onClick={() => signOut()}>
+                <p>Sign Out</p>
+            </button>
             <button className='flex items-center space-x-2 hover:text-white cursor-pointer'>
                 <HomeIcon className='h-5 w-5' />
                 <p>Home</p>
