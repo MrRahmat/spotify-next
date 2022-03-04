@@ -1,12 +1,13 @@
 import { useSession } from 'next-auth/react';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 
 import useSpotify from '../lib/useSpotify';
 import { currentTrackState, isPlayingState } from '../atoms/songAtom';
 import useSongInfo from '../lib/useSongInfo';
-import { SwitchHorizontalIcon, RefreshIcon } from '@heroicons/react/outline';
-import { FastForwardIcon, PlayIcon, RewindIcon, PauseIcon } from '@heroicons/react/solid';
+import { SwitchHorizontalIcon, RefreshIcon, VolumeOffIcon } from '@heroicons/react/outline';
+import { FastForwardIcon, PlayIcon, RewindIcon, PauseIcon, VolumeUpIcon } from '@heroicons/react/solid';
+import { debounce } from 'lodash';
 
 function Player() {
     const spotifyAPI = useSpotify();
@@ -31,6 +32,18 @@ function Player() {
             setVolume(50);
         }
     }, [ trackId, spotifyAPI, session ]);
+
+    useEffect(() => {
+      if (volume > 0 && volume < 100){
+        AdjustVolume(volume);
+      }
+    }, [volume]);
+    
+    const AdjustVolume = useCallback(
+        debounce((volume) => {
+            spotifyAPI.setVolume(volume).catch((err) => {});
+        }, 200)
+    );
 
     // useEffect(() => {
     //     const script = document.createElement("script");
@@ -81,6 +94,11 @@ function Player() {
                 )}
                 <FastForwardIcon className='button'/>
                 <RefreshIcon className='button'/>
+            </div>
+            <div className='flex items-center space-x-3 md:space-x-4 justify-end pr-5'>
+                <VolumeOffIcon onClick={() => setVolume(0)} className='button'/>
+                <input className='w-14 md:w-28' type='range' value={volume} min={0} max={100} onChange={(e) => setVolume(Number(e.target.value))}/>
+                <VolumeUpIcon onClick={() => volume <= 90 && setVolume(volume + 10)} className='button'/>
             </div>
         </div>
     )
